@@ -17,23 +17,22 @@ keyboardButton.addEventListener("click", () => {
   selectKeyboard();
 });
 
-
-function hideInstructions(){
-    const hide = document.querySelector(".selectController");
-    hide.setAttribute("class", "selectController hide");
+function hideInstructions() {
+  const hide = document.querySelector(".selectController");
+  hide.setAttribute("class", "selectController hide");
 }
 
 function selectMouse() {
-    hideInstructions()
-    game.start()
-    canvas.addEventListener("mousemove", (e)=>{
-        game.player.mouseMove(e.offsetX)
-    })
+  hideInstructions();
+  game.start();
+  canvas.addEventListener("mousemove", (e) => {
+    game.player.mouseMove(e.offsetX);
+  });
 }
 
 function selectKeyboard() {
-    hideInstructions()
-    game.start()
+  hideInstructions();
+  game.start();
   canvas.addEventListener("keydown", (e) => {
     if (e.key === "ArrowRight") {
       game.player.setDirection(1);

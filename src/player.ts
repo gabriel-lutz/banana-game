@@ -4,7 +4,7 @@ export default class Player {
   x: number;
   y: number;
   context: CanvasRenderingContext2D;
-  speedX: number = 10;
+  speedX: number = 20;
   direction: number;
   screenWidth: number;
   constructor(
@@ -19,11 +19,10 @@ export default class Player {
   }
 
   move() {
-      this.x += this.speedX * this.direction;
-    
+    this.x += this.speedX * this.direction;
   }
-  mouseMove(clientX: number){
-      this.x = clientX
+  mouseMove(clientX: number) {
+    this.x = clientX;
   }
 
   setDirection(direction: number) {

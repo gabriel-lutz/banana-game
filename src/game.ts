@@ -18,8 +18,8 @@ export default class Game {
   lifes: number = 4;
   gameIntervalId: NodeJS.Timer;
   scoreElement: HTMLElement = document.querySelector(".score");
-  lifeImgElements = document.querySelectorAll(".full")
-  gameOverElement:HTMLElement = document.querySelector(".gameOver")
+  lifeImgElements = document.querySelectorAll(".full");
+  gameOverElement: HTMLElement = document.querySelector(".gameOver");
 
   constructor(screenHeight: number, canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -29,9 +29,13 @@ export default class Game {
 
   start() {
     this.fallingObjects = [];
-    this.lifeImgElements.forEach(element => element.setAttribute("src", "./assets/heart.png")) 
+    this.lifeImgElements.forEach((element) =>
+      element.setAttribute("src", "./assets/heart.png")
+    );
     this.lifes = 4;
-    this.gameOverElement.setAttribute("class", "gameOver hide")
+    this.score = 0;
+    this.scoreElement.innerHTML = `<p> Score: ${this.score} <p>`
+    this.gameOverElement.setAttribute("class", "gameOver hide");
     this.player = new Player(this.context, this.screenWidth, this.screenHeight);
     this.clearIntervals();
     this.gameIntervalId = setInterval(() => this.gameLoop(), 1000 / 60);
@@ -81,26 +85,28 @@ export default class Game {
         if (fallingObject.theBanana) {
           this.removeFallingObject(fallingObject);
           this.score *= 2;
-          return (this.scoreElement.innerHTML = `<p> score: ${this.score} <p>`);
+          return (this.scoreElement.innerHTML = `<p> Score: ${this.score} <p>`);
         } else if (fallingObject.theBomb) {
           this.removeFallingObject(fallingObject);
           return this.endGame();
         } else {
           this.removeFallingObject(fallingObject);
           this.score += fallingObject.points;
-          return (this.scoreElement.innerHTML = `<p> score: ${this.score} <p>`);
+          return (this.scoreElement.innerHTML = `<p> Score: ${this.score} <p>`);
         }
       }
-      this.removeOnGroundCollision(fallingObject)
+      this.removeOnGroundCollision(fallingObject);
     });
   }
 
-  removeOnGroundCollision(fallingObject:FallingObject){
+  removeOnGroundCollision(fallingObject: FallingObject) {
     if (this.checkGroundCollision(fallingObject)) {
-      if(!fallingObject.theBomb){
-        this.lifeImgElements[this.lifes-1].setAttribute("src", "./assets/heart-empty.png")
+      if (!fallingObject.theBomb) {
+        this.lifeImgElements[this.lifes - 1].setAttribute(
+          "src",
+          "./assets/heart-empty.png"
+        );
         this.lifes--;
-        
       }
       this.removeFallingObject(fallingObject);
     }
@@ -126,7 +132,7 @@ export default class Game {
 
   endGame() {
     this.clearIntervals();
-    this.gameOverElement.setAttribute("class", "gameOver")
+    this.gameOverElement.setAttribute("class", "gameOver");
     console.log("fim de jogo");
   }
 
@@ -135,7 +141,13 @@ export default class Game {
     const image = new Image();
     image.src = "./assets/moon.png";
     this.context.beginPath();
-    this.context.drawImage(image, -400, (this.screenHeight < 900? -100 : 0), 1200, (this.screenHeight < 900? 900 : this.screenHeight));
+    this.context.drawImage(
+      image,
+      -400,
+      this.screenHeight < 900 ? -100 : 0,
+      1200,
+      this.screenHeight < 900 ? 900 : this.screenHeight
+    );
     this.context.fill();
     this.fallingObjects.forEach((fallingObject) => fallingObject.draw());
     this.player.draw();
